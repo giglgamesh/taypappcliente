@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#c63f17</color>
+    <color name="colorPrimaryDark">#f5a623</color>
+    <color name="colorAccent">#f5a623</color>
+    <color name="colorFondo">#f6f6f6</color>
+    <color name="colorPlomo">#C3C3C3</color>
+    <color name="colorBlanco">#FFFFFF</color>
+    <color name="colorNegro">#000000</color>
+    <color name="textoH2">#393737</color>
+    <color name="textoH3">#ec7f1f</color>
+
+    <!-- Screens background color-->
+    <color name="bg_screen1">#FFFFFF</color>
+    <color name="bg_screen2">#FFFFFF</color>
+    <color name="bg_screen3">#FFFFFF</color>
+    <color name="bg_screen4">#FFFFFF</color>
+    <color name="bg_screen5">#FFFFFF</color>
+
+    <!-- dots COLOR INACTIVO -->
+    <color name="dot_dark_screen1">#C3C3C3</color>
+    <color name="dot_dark_screen2">#C3C3C3</color>
+    <color name="dot_dark_screen3">#C3C3C3</color>
+    <color name="dot_dark_screen4">#C3C3C3</color>
+    <color name="dot_dark_screen5">#C3C3C3</color>
+
+    <!-- dots ACTIVO COLOR -->
+    <color name="dot_light_screen1">#ec7f1f</color>
+    <color name="dot_light_screen2">#ec7f1f</color>
+    <color name="dot_light_screen3">#ec7f1f</color>
+    <color name="dot_light_screen4">#ec7f1f</color>
+    <color name="dot_light_screen5">#ec7f1f</color>
+
+    <array name="array_dot_active">
+        <item>@color/dot_light_screen1</item>
+        <item>@color/dot_light_screen2</item>
+        <item>@color/dot_light_screen3</item>
+        <item>@color/dot_light_screen4</item>
+        <item>@color/dot_light_screen5</item>
+    </array>
+
+    <array name="array_dot_inactive">
+        <item>@color/dot_dark_screen1</item>
+        <item>@color/dot_dark_screen2</item>
+        <item>@color/dot_dark_screen3</item>
+        <item>@color/dot_dark_screen4</item>
+        <item>@color/dot_dark_screen5</item>
+    </array>
+</resources>
