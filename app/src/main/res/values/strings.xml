@@ -18,5 +18,6 @@
     <string name="device_offline">Tu dispositivo esta desconectado.</string>
     <string name="usuario_mensaje_validacion">Por Favor coloque un usuario...</string>
     <string name="password_mensaje_validacion">Por Favor coloque una clave...</string>
-
+    <string name="facebook_app_id">782656178609533</string>
+    <string name="fb_login_protocol_scheme">fb782656178609533</string>
 </resources>

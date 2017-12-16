@@ -86,14 +86,12 @@
                 android:text="INGRESAR"
                 android:onClick="IniciarLogueo"
                 />
-            <Button
+            <com.facebook.login.widget.LoginButton
                 android:layout_marginTop="20dp"
-                android:id="@+id/Btn_facebook"
+                android:id="@+id/login_button"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#FFFFFF"
                 android:background="@drawable/boton_logueo_facebook"
-                android:text="INGRESAR CON FACEBOOK"
                 />
             <LinearLayout
                 android:layout_marginTop="30dp"
