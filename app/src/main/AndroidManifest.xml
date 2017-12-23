@@ -28,6 +28,7 @@
         <activity android:name=".activities.RegistrarUsuarioActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.PrincipalActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.DescubrirActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.DescubrirComidaActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

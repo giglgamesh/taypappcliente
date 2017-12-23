@@ -1,11 +1,13 @@
 package pe.oranch.taypappcliente.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,18 +24,20 @@ import pe.oranch.taypappcliente.adapter.Tay_comidaAdapter;
 import pe.oranch.taypappcliente.entidades.Tay_comida;
 import pe.oranch.taypappcliente.request.ListarComidasRequest;
 
-public class DescubrirActivity extends AppCompatActivity {
+public class DescubrirComidaActivity extends AppCompatActivity {
     ArrayList<Tay_comida> listaComida;
     RecyclerView idrecyclerlista;
     //PARA EL REFRESH LAYOUT
     SwipeRefreshLayout swipeRefreshLayout;
     //FIN REFRESH LAYOUT
-
+    //Variables para la vista
+    TextView titulo_comida;
+    //fin variables
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_descubir);
-        ObtenerTiposComida();
+        setContentView(R.layout.activity_descubir_comida);
+        //ObtenerRestaurantes();
         IniciarObjetos();
     }
 
@@ -50,6 +54,10 @@ public class DescubrirActivity extends AppCompatActivity {
                 actualizarComidas();
             }
         });
+        titulo_comida = (TextView) findViewById(R.id.Titulo_Comida);
+        Intent intentdatos = getIntent();
+        final String titulo = intentdatos.getStringExtra("tay_tipocomida_nombre");
+        titulo_comida.setText(titulo);
     }
 
     public void VolverPerfil(View view) {
@@ -57,10 +65,10 @@ public class DescubrirActivity extends AppCompatActivity {
     }
 
     public void actualizarComidas(){
-        ObtenerTiposComida();
+        //ObtenerRestaurantes();
     }
 
-    public void ObtenerTiposComida(){
+    public void ObtenerRestaurantes(){
         final int empresa = 1;
 
         Response.Listener<String> responseListenerLista = new Response.Listener<String>(){
@@ -69,7 +77,7 @@ public class DescubrirActivity extends AppCompatActivity {
                 try {
                     listaComida = new ArrayList<>();
                     idrecyclerlista = findViewById(R.id.idRecyclerLista);
-                    idrecyclerlista.setLayoutManager(new LinearLayoutManager(DescubrirActivity.this));
+                    idrecyclerlista.setLayoutManager(new LinearLayoutManager(DescubrirComidaActivity.this));
                     idrecyclerlista.setHasFixedSize(true);
 
                     JSONObject jsonReponse = new JSONObject(response);
@@ -85,7 +93,7 @@ public class DescubrirActivity extends AppCompatActivity {
                         tay_comida.setTay_tipocomida_url(jsonObject.optString("tay_tipocomida_url"));
                         listaComida.add(tay_comida);
                     }
-                    Tay_comidaAdapter adapter=new Tay_comidaAdapter(DescubrirActivity.this,listaComida);
+                    Tay_comidaAdapter adapter=new Tay_comidaAdapter(DescubrirComidaActivity.this,listaComida);
                     idrecyclerlista.setAdapter(adapter);
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -93,7 +101,7 @@ public class DescubrirActivity extends AppCompatActivity {
             }
         };
         ListarComidasRequest listarcomidaRequest = new ListarComidasRequest(empresa,responseListenerLista);
-        RequestQueue queue = Volley.newRequestQueue(DescubrirActivity.this);
+        RequestQueue queue = Volley.newRequestQueue(DescubrirComidaActivity.this);
         queue.add(listarcomidaRequest);
     }
 }

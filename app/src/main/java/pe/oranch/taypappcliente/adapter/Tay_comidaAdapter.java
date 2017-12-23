@@ -1,11 +1,13 @@
 package pe.oranch.taypappcliente.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -13,6 +15,7 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import pe.oranch.taypappcliente.R;
+import pe.oranch.taypappcliente.activities.DescubrirComidaActivity;
 import pe.oranch.taypappcliente.entidades.Tay_comida;
 
 import static pe.oranch.taypappcliente.Config.APP_API_URL;
@@ -40,7 +43,7 @@ public class Tay_comidaAdapter extends RecyclerView.Adapter<Tay_comidaAdapter.Ta
     }
 
     @Override
-    public void onBindViewHolder(Tay_comidaAdapter.Tay_comidaHolder holder, int position) {
+    public void onBindViewHolder(Tay_comidaAdapter.Tay_comidaHolder holder, final int position) {
         holder.item_titulo.setText(listaComida.get(position).getTay_tipocomida_nombre().toString());
 
 
@@ -50,7 +53,15 @@ public class Tay_comidaAdapter extends RecyclerView.Adapter<Tay_comidaAdapter.Ta
             Picasso.with(mContext).load(urlimagen).into(holder.imagenmenu);
         }
 
-
+        holder.tipocomida.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentReg = new Intent(mContext,DescubrirComidaActivity.class);
+                intentReg.putExtra("tay_tipocomida_id", listaComida.get(position).getTay_tipocomida_id().toString());
+                intentReg.putExtra("tay_tipocomida_nombre", listaComida.get(position).getTay_tipocomida_nombre().toString());
+                mContext.startActivity(intentReg);
+            }
+        });
     }
 
     @Override
@@ -62,11 +73,12 @@ public class Tay_comidaAdapter extends RecyclerView.Adapter<Tay_comidaAdapter.Ta
 
         TextView item_titulo;
         ImageView imagenmenu;
-
+        RelativeLayout tipocomida;
         public Tay_comidaHolder(View itemView) {
             super(itemView);
             item_titulo = (TextView) itemView.findViewById(R.id.item_Titulo);
             imagenmenu = (ImageView) itemView.findViewById(R.id.imagenMenu);
+            tipocomida = (RelativeLayout) itemView.findViewById(R.id.TipoComida);
         }
     }
 }
