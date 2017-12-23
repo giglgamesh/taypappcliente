@@ -92,6 +92,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/boton_logueo_facebook"
+                android:onClick="loginfacebook"
                 />
             <LinearLayout
                 android:layout_marginTop="30dp"

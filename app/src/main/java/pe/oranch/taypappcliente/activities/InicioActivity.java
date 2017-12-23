@@ -53,6 +53,9 @@ public class InicioActivity extends AppCompatActivity {
     //FUNCION DE FACEBOOK
     CallbackManager callbackManager;
     //FIN FUNCION
+    //VARIABLES RECORDAR SESION
+    private PrefManager prefManager;
+    //FIN VARIABLES
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -78,20 +81,18 @@ public class InicioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inicio);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        //BOTON REGISTRARSE
-       // btn_registrarse = (TextView) findViewById(R.id.btn_Registrarse);
-        //btn_registrarse.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
+        // Revisar si es la primera vez que inicia el prefManager()
+        prefManager = new PrefManager(this);
+        if (!prefManager.isFirstTimeLaunch()) {
+            iniciarPrincipal();
+            finish();
+        }
+    }
 
-                //iniciar actividad
-         //       Intent intent = new Intent(InicioActivity.this,RegistrarUsuarioActivity.class);
-         //       InicioActivity.this.startActivity(intent);
-                //fin inicio de la actividad
-         //   }
-        //});
-        //FIN FUNCION BOTON
-        loginfacebook();
+    private void iniciarPrincipal(){
+        prefManager.setFirstTimeLaunch(false);
+        startActivity(new Intent(InicioActivity.this, PrincipalActivity.class));
+        finish();
     }
 
     public void registrarvista(View view) {
@@ -135,9 +136,11 @@ public class InicioActivity extends AppCompatActivity {
                                 editor.putInt("tay_cliente_tipo", Integer.parseInt(tipo));
                                 editor.putString("tay_cliente_fecha", fecha);
                                 editor.putInt("tay_cliente_estado", Integer.parseInt(estado));
+                                editor.putString("loguinFacebook", "falso");
                                 editor.apply();
 
                                 //iniciar actividad
+                                prefManager.setFirstTimeLaunch(false);
                                 Intent intent = new Intent(InicioActivity.this,PrincipalActivity.class);
                                 //finalizar actividad
                                 //enviar valor
@@ -234,7 +237,7 @@ public class InicioActivity extends AppCompatActivity {
             Utils.psErrorLogE("Error in init data.", e);
         }
     }
-    private void loginfacebook(){
+    public void loginfacebook(View view){
         callbackManager = CallbackManager.Factory.create();
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton.setReadPermissions("email");
@@ -268,8 +271,14 @@ public class InicioActivity extends AppCompatActivity {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
+                        prefManager.setFirstTimeLaunch(false);
                         Intent intent = new Intent(InicioActivity.this, PrincipalActivity.class);
-                        intent.putExtra("userProfile", json_object.toString());
+
+                        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(InicioActivity.this.getApplicationContext());
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putString("userProfile", json_object.toString());
+                        editor.putString("loguinFacebook", "verdad");
+                        editor.apply();
                         startActivity(intent);
                     }
 

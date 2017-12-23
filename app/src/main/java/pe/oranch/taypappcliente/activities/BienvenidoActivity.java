@@ -122,7 +122,7 @@ public class BienvenidoActivity extends AppCompatActivity {
     }
 
     private void launchHomeScreen() {
-        prefManager.setFirstTimeLaunch(false);
+        //prefManager.setFirstTimeLaunch(false);
         startActivity(new Intent(BienvenidoActivity.this, InicioActivity.class));
         finish();
     }
