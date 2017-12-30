@@ -21,11 +21,14 @@ import java.util.ArrayList;
 
 import pe.oranch.taypappcliente.R;
 import pe.oranch.taypappcliente.adapter.Tay_comidaAdapter;
+import pe.oranch.taypappcliente.adapter.Tay_restaurantesAdapter;
 import pe.oranch.taypappcliente.entidades.Tay_comida;
+import pe.oranch.taypappcliente.entidades.Tay_restaurantesjoin;
 import pe.oranch.taypappcliente.request.ListarComidasRequest;
+import pe.oranch.taypappcliente.request.ListarRestaurantesRequest;
 
 public class DescubrirComidaActivity extends AppCompatActivity {
-    ArrayList<Tay_comida> listaComida;
+    ArrayList<Tay_restaurantesjoin> listaRestaurantes;
     RecyclerView idrecyclerlista;
     //PARA EL REFRESH LAYOUT
     SwipeRefreshLayout swipeRefreshLayout;
@@ -37,7 +40,7 @@ public class DescubrirComidaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descubir_comida);
-        //ObtenerRestaurantes();
+        ObtenerRestaurantes();
         IniciarObjetos();
     }
 
@@ -69,39 +72,41 @@ public class DescubrirComidaActivity extends AppCompatActivity {
     }
 
     public void ObtenerRestaurantes(){
-        final int empresa = 1;
+        Intent intentdatos = getIntent();
+        final Integer valorTipoComida = Integer.parseInt(intentdatos.getStringExtra("tay_tipocomida_id"));
 
         Response.Listener<String> responseListenerLista = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
-                    listaComida = new ArrayList<>();
+                    listaRestaurantes = new ArrayList<>();
                     idrecyclerlista = findViewById(R.id.idRecyclerLista);
                     idrecyclerlista.setLayoutManager(new LinearLayoutManager(DescubrirComidaActivity.this));
                     idrecyclerlista.setHasFixedSize(true);
 
                     JSONObject jsonReponse = new JSONObject(response);
-                    Tay_comida tay_comida=null;
+                    Tay_restaurantesjoin tay_restaurantesjoin=null;
                     JSONArray json=jsonReponse.optJSONArray("usuario");
                     for (int i=0;i<json.length();i++){
-                        tay_comida=new Tay_comida();
+                        tay_restaurantesjoin=new Tay_restaurantesjoin();
                         JSONObject jsonObject=null;
                         jsonObject=json.getJSONObject(i);
 
-                        tay_comida.setTay_tipocomida_nombre(jsonObject.optString("tay_tipocomida_nombre"));
-                        tay_comida.setTay_tipocomida_id(Integer.parseInt(jsonObject.optString("tay_tipocomida_id")));
-                        tay_comida.setTay_tipocomida_url(jsonObject.optString("tay_tipocomida_url"));
-                        listaComida.add(tay_comida);
+                        tay_restaurantesjoin.setTay_empresa_nombre(jsonObject.optString("tay_empresa_nombre"));
+                        tay_restaurantesjoin.setTay_tipocomida_nombre(jsonObject.optString("tay_tipocomida_nombre"));
+                        tay_restaurantesjoin.setTay_empresa_direccion(jsonObject.optString("tay_empresa_direccion"));
+                        //tay_restaurantesjoin.setTay_calificacion_calificacion(Integer.parseInt(jsonObject.optString("tay_calificacion_calificacion")));
+                        listaRestaurantes.add(tay_restaurantesjoin);
                     }
-                    Tay_comidaAdapter adapter=new Tay_comidaAdapter(DescubrirComidaActivity.this,listaComida);
+                    Tay_restaurantesAdapter adapter=new Tay_restaurantesAdapter(DescubrirComidaActivity.this,listaRestaurantes);
                     idrecyclerlista.setAdapter(adapter);
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         };
-        ListarComidasRequest listarcomidaRequest = new ListarComidasRequest(empresa,responseListenerLista);
+        ListarRestaurantesRequest listarrestaurantesRequest = new ListarRestaurantesRequest(valorTipoComida,responseListenerLista);
         RequestQueue queue = Volley.newRequestQueue(DescubrirComidaActivity.this);
-        queue.add(listarcomidaRequest);
+        queue.add(listarrestaurantesRequest);
     }
 }

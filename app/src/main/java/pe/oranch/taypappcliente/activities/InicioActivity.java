@@ -91,7 +91,7 @@ public class InicioActivity extends AppCompatActivity {
 
     private void iniciarPrincipal(){
         prefManager.setFirstTimeLaunch(false);
-        startActivity(new Intent(InicioActivity.this, PrincipalActivity.class));
+        startActivity(new Intent(InicioActivity.this, EncuentraTuMenuActivity.class));
         finish();
     }
 
@@ -141,7 +141,7 @@ public class InicioActivity extends AppCompatActivity {
 
                                 //iniciar actividad
                                 prefManager.setFirstTimeLaunch(false);
-                                Intent intent = new Intent(InicioActivity.this,PrincipalActivity.class);
+                                Intent intent = new Intent(InicioActivity.this,EncuentraTuMenuActivity.class);
                                 //finalizar actividad
                                 //enviar valor
                                 intent.putExtra("tay_cliente_nombre", nombre);
@@ -272,7 +272,7 @@ public class InicioActivity extends AppCompatActivity {
                             JSONObject json_object,
                             GraphResponse response) {
                         prefManager.setFirstTimeLaunch(false);
-                        Intent intent = new Intent(InicioActivity.this, PrincipalActivity.class);
+                        Intent intent = new Intent(InicioActivity.this, EncuentraTuMenuActivity.class);
 
                         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(InicioActivity.this.getApplicationContext());
                         SharedPreferences.Editor editor = prefs.edit();

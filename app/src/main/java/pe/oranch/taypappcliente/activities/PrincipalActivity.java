@@ -85,6 +85,8 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     public void Favoritos(View view) {
+        Intent intent = new Intent(PrincipalActivity.this,EncuentraTuMenuActivity.class);
+        PrincipalActivity.this.startActivity(intent);
     }
 
     public void Notificaciones(View view) {
@@ -104,5 +106,9 @@ public class PrincipalActivity extends AppCompatActivity {
             PrincipalActivity.this.startActivity(intent);
             finish();
         }
+    }
+
+    public void VolverEncuentra(View view) {
+        onBackPressed();
     }
 }
