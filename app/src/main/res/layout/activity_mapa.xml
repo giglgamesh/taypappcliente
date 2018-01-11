@@ -29,7 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
-                android:layout_weight="0.5">
+                android:layout_weight="0.1">
                 <TextView
                     android:layout_marginLeft="5dp"
                     android:layout_gravity="center_vertical"
@@ -43,45 +43,6 @@
                     android:textSize="12sp"
                     android:autoSizeStepGranularity="1sp"/>
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:onClick="VerMapa">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="horizontal"
-                android:layout_weight="1">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
-            </LinearLayout>
-
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
@@ -94,28 +55,23 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/relLayoutTop"
                 android:layout_above="@+id/margenBot">
-                <ScrollView
-                    android:id="@+id/ScrollView01"
+                <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:scrollbars="none">
-                    <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:orientation="vertical">
+                    android:orientation="vertical">
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:orientation="horizontal">
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/idRecyclerLista"
-                                android:overScrollMode="never"
-                                android:scrollbars="none"
-                                android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"/>
+                            android:orientation="vertical">
+                            <fragment
+                                android:id="@+id/map_fragment"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:name="pe.oranch.taypappcliente.fragments.MapFragment">
+                            </fragment>
                         </LinearLayout>
-                    </LinearLayout>
-                </ScrollView>
+                </LinearLayout>
+
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
     </LinearLayout>

@@ -1,5 +1,6 @@
 package pe.oranch.taypappcliente.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -95,5 +96,10 @@ public class DescubrirActivity extends AppCompatActivity {
         ListarComidasRequest listarcomidaRequest = new ListarComidasRequest(empresa,responseListenerLista);
         RequestQueue queue = Volley.newRequestQueue(DescubrirActivity.this);
         queue.add(listarcomidaRequest);
+    }
+
+    public void VerMapa(View view) {
+        Intent intent = new Intent(DescubrirActivity.this,MapaActivity.class);
+        DescubrirActivity.this.startActivity(intent);
     }
 }

@@ -11,7 +11,7 @@
         <string name="instrucciones4">Podrás ver los comentarios más recientes</string>
         <string name="instrucciones5">¡No te pierdas ninguna oferta!</string>
 
-    <string name="login">Login</string>
+    <string name="login">Iniciar Sesión</string>
     <string name="login_fail">Logueo sin exito. Porfavor intentelo denuevo.</string>
     <string name="OK">OK</string>
     <string name="sorry_title">Disculpe las molestias</string>
@@ -20,4 +20,15 @@
     <string name="password_mensaje_validacion">Por Favor coloque una clave...</string>
     <string name="facebook_app_id">782656178609533</string>
     <string name="fb_login_protocol_scheme">fb782656178609533</string>
+
+    <string name="json_status_success">success</string>
+    <string name="json_status_error">error</string>
+    <string name="connection_error">Oops! La aplicación no puede conectarse al servidor. </string>
+    <string name="location_search_title">1 Km a 50 Km</string>
+    <string name="pls_wait">Porfavor espere</string>
+    <string name="gps_not_ready">GPS no está listo para tomar su latitud y longitud. Espere un momento para buscar.</string>
+    <string name="no_google_play">Tu dispositivo no está disponible. Instale esto por favor.</string>
+    <string name="map_icon_desc">Descripción de la imagen</string>
+    <string name="explore_on_map">Explorar en el mapa</string>
+    <string name="display_name">Mostrar Mensaje</string>
 </resources>

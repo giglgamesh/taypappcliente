@@ -109,4 +109,9 @@ public class DescubrirComidaActivity extends AppCompatActivity {
         RequestQueue queue = Volley.newRequestQueue(DescubrirComidaActivity.this);
         queue.add(listarrestaurantesRequest);
     }
+
+    public void VerMapa(View view) {
+        Intent intent = new Intent(DescubrirComidaActivity.this,MapaActivity.class);
+        DescubrirComidaActivity.this.startActivity(intent);
+    }
 }

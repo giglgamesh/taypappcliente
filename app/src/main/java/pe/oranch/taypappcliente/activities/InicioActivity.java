@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -35,10 +37,14 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
+import pe.oranch.taypappcliente.Config;
 import pe.oranch.taypappcliente.recursos.PrefManager;
 import pe.oranch.taypappcliente.R;
 import pe.oranch.taypappcliente.request.LoguinRequest;
 import pe.oranch.taypappcliente.utilities.Utils;
+import pe.oranch.taypappcliente.utilities.VolleySingleton;
 
 public class InicioActivity extends AppCompatActivity {
     private ProgressDialog prgDialog;
@@ -56,6 +62,10 @@ public class InicioActivity extends AppCompatActivity {
     //VARIABLES RECORDAR SESION
     private PrefManager prefManager;
     //FIN VARIABLES
+
+
+    private String jsonStatusSuccessString;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -87,6 +97,7 @@ public class InicioActivity extends AppCompatActivity {
             iniciarPrincipal();
             finish();
         }
+        initData();
     }
 
     private void iniciarPrincipal(){
@@ -233,6 +244,7 @@ public class InicioActivity extends AppCompatActivity {
     private void initData() {
         try {
             loginString = Utils.getSpannableString(getString(R.string.login));
+            jsonStatusSuccessString = getResources().getString(R.string.json_status_success);
         }catch(Exception e){
             Utils.psErrorLogE("Error in init data.", e);
         }
@@ -300,5 +312,98 @@ public class InicioActivity extends AppCompatActivity {
         super.onPause();
         // Logs 'app deactivate' App Event.
         AppEventsLogger.deactivateApp(this);
+    }
+
+    public void doLogin(View view) {
+        //SETEO DE CAMPOS PARA LOGUIN
+        tv_usuario = (EditText) findViewById(R.id.Tv_usuario);
+        tv_password = (EditText) findViewById(R.id.Tv_password);
+        if(inputValidation()) {
+            final String URL = Config.APP_API_URL + Config.POST_USER_LOGIN;
+            Utils.psLog(URL);
+
+            HashMap<String, String> params = new HashMap<>();
+            params.put("tay_cliente_email", tv_usuario.getText().toString().trim());
+            params.put("tay_cliente_contrasena", tv_password.getText().toString().trim());
+
+            doSubmit(URL, params);
+        }
+    }
+    private void doSubmit(String postURL, HashMap<String, String> params) {
+        if(isInternetOn()) {
+            //prgDialog.show();
+
+            JsonObjectRequest req = new JsonObjectRequest(postURL, new JSONObject(params),
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+
+                                Utils.psLog(" ....Inicio de sesión devolución de llamada .... " + response);
+
+                                String status = response.getString("status");
+                                if (status.equals(jsonStatusSuccessString)) {
+
+                                    JSONObject dat = response.getJSONObject("data");
+                                    //retorna el valor de nombre de la base de datos en el jason
+                                    String idcliente = dat.getString("tay_cliente_id");
+                                    String nombre = dat.getString("tay_cliente_nombre");
+                                    String usuario = dat.getString("tay_cliente_email");
+                                    String tipo = dat.getString("tay_cliente_tipo");
+                                    String fecha = dat.getString("tay_cliente_fecha");
+                                    String estado = dat.getString("tay_cliente_estado");
+                                    //fin retorno
+
+                                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(InicioActivity.this.getApplicationContext());
+                                    SharedPreferences.Editor editor = prefs.edit();
+                                    editor.putInt("tay_cliente_id", Integer.parseInt(idcliente));
+                                    editor.putString("tay_cliente_nombre", nombre);
+                                    editor.putString("tay_cliente_email", usuario);
+                                    editor.putInt("tay_cliente_tipo", Integer.parseInt(tipo));
+                                    editor.putString("tay_cliente_fecha", fecha);
+                                    editor.putInt("tay_cliente_estado", Integer.parseInt(estado));
+                                    editor.putString("loguinFacebook", "falso");
+                                    editor.apply();
+
+                                    //iniciar actividad
+                                    prefManager.setFirstTimeLaunch(false);
+                                    Intent intent = new Intent(InicioActivity.this,EncuentraTuMenuActivity.class);
+                                    //finalizar actividad
+                                    //enviar valor
+                                    intent.putExtra("tay_cliente_nombre", nombre);
+                                    //fin envio de valor
+
+                                    InicioActivity.this.startActivity(intent);
+
+                                } else {
+                                    Utils.psLog("Error al Iniciar Sesión");
+                                   // prgDialog.cancel();
+                                    showFailPopup();
+
+
+                                }
+
+                            } catch (JSONException e) {
+                              //  prgDialog.cancel();
+                                Utils.psLog("Error al Iniciar Sesión : " + e.getMessage());
+                                e.printStackTrace();
+                                showFailPopup();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                   // prgDialog.cancel();
+                    Utils.psLog("Error: " + error.getMessage());
+                }
+            });
+            req.setShouldCache(false);
+            // add the request object to the queue to be executed
+            VolleySingleton.getInstance(InicioActivity.this).addToRequestQueue(req);
+        } else {
+
+            showOffline();;
+
+        }
     }
 }
