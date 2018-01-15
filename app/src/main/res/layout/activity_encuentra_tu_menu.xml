@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
         <LinearLayout
             android:background="@drawable/fondo_menu_sup"
@@ -83,42 +83,73 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_ico_info_2"/>
             </LinearLayout>
-
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:layout_weight="0.07">
+            android:layout_weight="0.75">
+            <com.daimajia.slider.library.SliderLayout
+                android:id="@+id/slider"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                />
+            <com.daimajia.slider.library.Indicators.PagerIndicator
+                android:id="@+id/custom_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_margin="10dp"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.4">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:background="@drawable/fondo_menu_sup"
+                android:layout_weight="1"
+                >
+                <TextView
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorBlanco"
+                    android:text="CERCA DE TI"
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:textSize="12sp"
+                    android:autoSizeStepGranularity="1sp"/>
+            </LinearLayout>
             <android.support.v4.widget.SwipeRefreshLayout
+                android:layout_weight="0.07"
                 android:id="@+id/simpleSwipeRefreshLayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/relLayoutTop"
-                android:layout_above="@+id/margenBot">
-                <LinearLayout
+                android:layout_height="match_parent">
+                <ScrollView
+                    android:id="@+id/ScrollView01"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:orientation="vertical">
-                    <com.daimajia.slider.library.SliderLayout
-                        android:id="@+id/slider"
-                        android:layout_width="fill_parent"
-                        android:layout_height="200dp"
-                        />
-                    <com.daimajia.slider.library.Indicators.PagerIndicator
-                        android:id="@+id/custom_indicator"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        />
-                    <ScrollView
-                        android:id="@+id/ScrollView01"
+                    android:scrollbars="none"
+                    android:layout_weight="0.07">
+                    <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:scrollbars="none">
-                    </ScrollView>
-                </LinearLayout>
-
+                        android:orientation="horizontal">
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/idRecyclerLista"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"/>
+                    </LinearLayout>
+                </ScrollView>
             </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
     </LinearLayout>

@@ -12,10 +12,10 @@ import pe.oranch.taypappcliente.Config;
  * Created by Daniel on 14/01/2018.
  */
 
-public class ListarRestaurantesRequest extends StringRequest {
-    private static final String LISTA_RESTAURANTES_REQUEST_URL= Config.APP_API_ANTIGUO + Config.LISTAR_RESTAURANTES_SCONEXION;
+public class ListarTodoRestauranteRequest extends StringRequest {
+    private static final String LISTA_RESTAURANTES_REQUEST_URL= Config.APP_API_ANTIGUO + Config.LISTAR_TODORESTAURANTE_SCONEXION;
     private Map<String,String> params;
-    public ListarRestaurantesRequest(int valorTipoComida, Response.Listener<String> listener){
+    public ListarTodoRestauranteRequest(int valorTipoComida, Response.Listener<String> listener){
         super(Method.POST, LISTA_RESTAURANTES_REQUEST_URL,listener,null);
         params = new HashMap<>();
         params.put ("tay_tipocomida_id",valorTipoComida+"");

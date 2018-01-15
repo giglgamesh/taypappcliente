@@ -19,13 +19,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import pe.oranch.taypappcliente.Config;
 import pe.oranch.taypappcliente.R;
-import pe.oranch.taypappcliente.adapter.Tay_comidaAdapter;
 import pe.oranch.taypappcliente.adapter.Tay_restaurantesAdapter;
-import pe.oranch.taypappcliente.entidades.Tay_comida;
 import pe.oranch.taypappcliente.entidades.Tay_restaurantesjoin;
-import pe.oranch.taypappcliente.request.ListarComidasRequest;
 import pe.oranch.taypappcliente.request.ListarRestaurantesRequest;
+import pe.oranch.taypappcliente.utilities.Utils;
 
 public class DescubrirComidaActivity extends AppCompatActivity {
     ArrayList<Tay_restaurantesjoin> listaRestaurantes;
@@ -36,12 +35,17 @@ public class DescubrirComidaActivity extends AppCompatActivity {
     //Variables para la vista
     TextView titulo_comida;
     //fin variables
+    //Nuevas Variables
+    private String jsonStatusSuccessString;
+    private int valorTipoComida;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_descubir_comida);
-        ObtenerRestaurantes();
         IniciarObjetos();
+        //initData();
+        ObtenerRestaurantes();
     }
 
     public void IniciarObjetos(){
@@ -66,14 +70,34 @@ public class DescubrirComidaActivity extends AppCompatActivity {
     public void VolverPerfil(View view) {
         onBackPressed();
     }
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.blank_anim, R.anim.left_to_right);
+    }
 
     public void actualizarComidas(){
         //ObtenerRestaurantes();
     }
 
+    private void initData(){
+        try {
+            jsonStatusSuccessString = getResources().getString(R.string.json_status_success);
+            final String URL = Config.APP_API_URL + Config.GET_TIPOS_COMIDA;
+            Utils.psLog(URL);
+            getComidasPorTipo(URL);
+        }catch (Exception e){
+            Utils.psErrorLogE("Error in bind Rating", e);
+        }
+    }
+
+    private void getComidasPorTipo(String postURL) {
+
+    }
+
     public void ObtenerRestaurantes(){
-        Intent intentdatos = getIntent();
-        final Integer valorTipoComida = Integer.parseInt(intentdatos.getStringExtra("tay_tipocomida_id"));
+
+        valorTipoComida = getIntent().getIntExtra("tay_tipocomida_id", 0);
 
         Response.Listener<String> responseListenerLista = new Response.Listener<String>(){
             @Override

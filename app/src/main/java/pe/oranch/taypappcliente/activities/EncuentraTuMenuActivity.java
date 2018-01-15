@@ -15,18 +15,16 @@ import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.NetworkResponse;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
@@ -34,39 +32,36 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
-import com.google.android.gms.maps.MapView;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.net.CacheRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
 import pe.oranch.taypappcliente.Config;
-import pe.oranch.taypappcliente.GlobalData;
 import pe.oranch.taypappcliente.R;
+import pe.oranch.taypappcliente.adapter.Tay_restaurantesAdapter;
+import pe.oranch.taypappcliente.entidades.Tay_restaurantesjoin;
 import pe.oranch.taypappcliente.entidades.Tay_slider;
-import pe.oranch.taypappcliente.models.PSliderData;
-import pe.oranch.taypappcliente.request.ListarSliderRequest;
+import pe.oranch.taypappcliente.request.ListarRestaurantesRequest;
+import pe.oranch.taypappcliente.request.ListarTodoRestauranteRequest;
 import pe.oranch.taypappcliente.utilities.Utils;
 import pe.oranch.taypappcliente.utilities.VolleySingleton;
 
-import static pe.oranch.taypappcliente.Config.APP_API_URL;
+import static pe.oranch.taypappcliente.Config.APP_IMAGES_LOCAL;
 
 public class EncuentraTuMenuActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener,ViewPagerEx.OnPageChangeListener, LocationListener{
     EncuentraTuMenuActivity encuentratumenuActivity;
     ArrayList<Tay_slider> listaSlider;
     //PARA EL REFRESH LAYOUT
     SwipeRefreshLayout swipeRefreshLayout;
+    ArrayList<Tay_restaurantesjoin> listaRestaurantes;
+    RecyclerView idrecyclerlista;
     //FIN REFRESH LAYOUT
     //PARA EL SLIDER
     private SliderLayout mDemoSlider;
@@ -87,8 +82,8 @@ public class EncuentraTuMenuActivity extends AppCompatActivity implements BaseSl
         setContentView(R.layout.activity_encuentra_tu_menu);
         ObtenerTiposComida();
         IniciarObjetos();
-        //initData();
-        IniciarSlider();
+        initData();
+        ObtenerTodoRestaurante();
         //mDemoSlider.stopAutoCycle();
     }
 
@@ -109,150 +104,121 @@ public class EncuentraTuMenuActivity extends AppCompatActivity implements BaseSl
 
     private void initData(){
         try {
-            //final String URL = Config.APP_API_URL + Config.GET_ALL;
-            //Utils.psLog(URL);
-            //HashMap<String, String> params = new HashMap<>();
-            //params.put("estado", 1+"");
-            //getSlider(URL, params);
+            jsonStatusSuccessString = getResources().getString(R.string.json_status_success);
+            final String URL = Config.APP_API_URL + Config.GET_FOTOS_SLIDER;
+            Utils.psLog(URL);
+            getSlider(URL);
         }catch (Exception e){
             Utils.psErrorLogE("Error in bind Rating", e);
         }
     }
-    private void getSlider(String postURL, HashMap<String, String> params) {
-        JsonObjectRequest req = new JsonObjectRequest(postURL, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String success_status = response.getString("status");
-                            String data_status = response.getString("data");
 
-                            if (success_status.equals(jsonStatusSuccessString)) {
-                                JSONObject jresponse = new JSONObject(data_status);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.e("Error: ", error.getMessage());
-            }
-        });
+    public void ObtenerTodoRestaurante(){
+        final Integer valorTipoComida = 1;
 
-        req.setShouldCache(false);
-        VolleySingleton.getInstance(this).addToRequestQueue(req);
-    }
-
-    public final boolean isInternetOn() {
-
-        ConnectivityManager cm = (ConnectivityManager) EncuentraTuMenuActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if (activeNetwork != null) { // connected to the internet
-            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
-                // connected to wifi
-                return true;
-            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                // connected to the mobile provider's data plan
-                return true;
-            }
-        } else {
-            return false;
-        }
-        return false;
-    }
-
-    private void showOffline() {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(EncuentraTuMenuActivity.this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle(R.string.sorry_title);
-        builder.setMessage(R.string.device_offline);
-        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Utils.psLog("OK clicked.");
-            }
-        });
-        builder.show();
-    }
-
-    private void showFailPopup() {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(EncuentraTuMenuActivity.this, R.style.AppCompatAlertDialogStyle);
-        builder.setTitle(R.string.login);
-        builder.setMessage(R.string.login_fail);
-        builder.setPositiveButton(R.string.OK, null);
-        builder.show();
-    }
-    public void IniciarSlider(){
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
-        HashMapForURL = new HashMap<String, String>();
-
-
-        //EXPERIMENTO SLIDER A BASE DE DATOS
-        final int empresa = 1;
         Response.Listener<String> responseListenerLista = new Response.Listener<String>(){
             @Override
             public void onResponse(String response) {
                 try {
-                    listaSlider = new ArrayList<>();
+                    listaRestaurantes = new ArrayList<>();
+                    idrecyclerlista = findViewById(R.id.idRecyclerLista);
+                    idrecyclerlista.setLayoutManager(new LinearLayoutManager(EncuentraTuMenuActivity.this));
+                    idrecyclerlista.setHasFixedSize(true);
+
                     JSONObject jsonReponse = new JSONObject(response);
-                    Tay_slider tay_slider=null;
+                    Tay_restaurantesjoin tay_restaurantesjoin=null;
                     JSONArray json=jsonReponse.optJSONArray("usuario");
                     for (int i=0;i<json.length();i++){
-                        tay_slider=new Tay_slider();
+                        tay_restaurantesjoin=new Tay_restaurantesjoin();
                         JSONObject jsonObject=null;
                         jsonObject=json.getJSONObject(i);
-                        tay_slider.setTay_slider_id(jsonObject.optInt("tay_slider_id"));
-                        tay_slider.setTay_slider_nombre(jsonObject.optString("tay_slider_nombre"));
-                        tay_slider.setTay_slider_url(jsonObject.optString("tay_slider_url"));
-                        listaSlider.add(tay_slider);
 
-                        urlimagen = APP_API_URL + (listaSlider.get(i).getTay_slider_url().toString());
-                        textoslider = listaSlider.get(i).getTay_slider_nombre().toString();
-                        nombreslider = listaSlider.get(i).getTay_slider_id().toString();
-                        HashMapForURL.put(textoslider,urlimagen);
-
-
-                        TextSliderView textSliderView = new TextSliderView(EncuentraTuMenuActivity.this);
-                        textSliderView
-                                .description(textoslider)
-                                .image(HashMapForURL.get(textoslider))
-                                .setScaleType(BaseSliderView.ScaleType.Fit)
-                                .setOnSliderClickListener(EncuentraTuMenuActivity.this);
-                        textSliderView.bundle(new Bundle());
-                        textSliderView.getBundle()
-                                .putString("extra",textoslider);
-                        mDemoSlider.addSlider(textSliderView);
-
+                        tay_restaurantesjoin.setTay_empresa_nombre(jsonObject.optString("tay_empresa_nombre"));
+                        tay_restaurantesjoin.setTay_tipocomida_nombre(jsonObject.optString("tay_tipocomida_nombre"));
+                        tay_restaurantesjoin.setTay_empresa_direccion(jsonObject.optString("tay_empresa_direccion"));
+                        //tay_restaurantesjoin.setTay_calificacion_calificacion(Integer.parseInt(jsonObject.optString("tay_calificacion_calificacion")));
+                        listaRestaurantes.add(tay_restaurantesjoin);
                     }
-
-                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
-
-                    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-
-                    mDemoSlider.setCustomAnimation(new DescriptionAnimation());
-
-                    mDemoSlider.setDuration(3000);
-
-                    mDemoSlider.addOnPageChangeListener(EncuentraTuMenuActivity.this);
+                    Tay_restaurantesAdapter adapter=new Tay_restaurantesAdapter(EncuentraTuMenuActivity.this,listaRestaurantes);
+                    idrecyclerlista.setAdapter(adapter);
                 }catch (JSONException e){
                     e.printStackTrace();
                 }
             }
         };
-        ListarSliderRequest listarsliderRequest = new ListarSliderRequest(empresa,responseListenerLista);
+        ListarTodoRestauranteRequest listarrestaurantesRequest = new ListarTodoRestauranteRequest(valorTipoComida,responseListenerLista);
         RequestQueue queue = Volley.newRequestQueue(EncuentraTuMenuActivity.this);
-        queue.add(listarsliderRequest);
-        //FIN DEL EXPERIMENTO
+        queue.add(listarrestaurantesRequest);
+    }
+
+    private void getSlider(String postURL) {
+        if (isInternetOn()) {
+            mDemoSlider = (SliderLayout) findViewById(R.id.slider);
+            HashMapForURL = new HashMap<String, String>();
+            JsonObjectRequest req = new JsonObjectRequest(postURL,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                listaSlider = new ArrayList<>();
+                                Tay_slider tay_slider = null;
+                                String success_status = response.getString("status");
+                                if (success_status.equals(jsonStatusSuccessString)) {
+                                    JSONArray datjson = response.optJSONArray("data");
+                                    for (int i = 0; i < datjson.length(); i++) {
+                                        tay_slider = new Tay_slider();
+                                        JSONObject jsonObject = null;
+                                        jsonObject = datjson.getJSONObject(i);
+                                        tay_slider.setTay_slider_id(jsonObject.optInt("tay_slider_id"));
+                                        tay_slider.setTay_slider_nombre(jsonObject.optString("tay_slider_nombre"));
+                                        tay_slider.setTay_slider_url(jsonObject.optString("tay_slider_url"));
+                                        listaSlider.add(tay_slider);
+
+                                        urlimagen = APP_IMAGES_LOCAL + (listaSlider.get(i).getTay_slider_url().toString());
+                                        textoslider = listaSlider.get(i).getTay_slider_nombre().toString();
+                                        nombreslider = listaSlider.get(i).getTay_slider_id().toString();
+                                        HashMapForURL.put(textoslider, urlimagen);
 
 
-        //HashMapForLocalRes.put(textoslider,R.drawable.criolla_foto);
-        //HashMapForLocalRes.put("Prueba2",R.drawable.criolla_foto);
-        //HashMapForLocalRes.put("Prueba3",R.drawable.criolla_foto);
-        //HashMapForLocalRes.put("Prueba4",R.drawable.criolla_foto);
-        //HashMapForLocalRes.put("Prueba5",R.drawable.criolla_foto);
+                                        TextSliderView textSliderView = new TextSliderView(EncuentraTuMenuActivity.this);
+                                        textSliderView
+                                                .description(textoslider)
+                                                .image(HashMapForURL.get(textoslider))
+                                                .setScaleType(BaseSliderView.ScaleType.Fit)
+                                                .setOnSliderClickListener(EncuentraTuMenuActivity.this);
+                                        textSliderView.bundle(new Bundle());
+                                        textSliderView.getBundle()
+                                                .putString("extra", textoslider);
+                                        mDemoSlider.addSlider(textSliderView);
+                                    }
+
+                                    mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
+
+                                    mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+
+                                    mDemoSlider.setCustomAnimation(new DescriptionAnimation());
+
+                                    mDemoSlider.setDuration(3000);
+
+                                    mDemoSlider.addOnPageChangeListener(EncuentraTuMenuActivity.this);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.e("Error: ", error.getMessage());
+                }
+            });
+
+            req.setShouldCache(false);
+            VolleySingleton.getInstance(this).addToRequestQueue(req);
+
+        } else {
+            showOffline();
+        }
     }
     @Override
     protected void onStop() {
@@ -288,7 +254,7 @@ public class EncuentraTuMenuActivity extends AppCompatActivity implements BaseSl
 
     public void actualizarComidas(){
         mDemoSlider.removeAllSliders();
-        IniciarSlider();
+        initData();
     }
 
     public void ObtenerTiposComida(){
@@ -348,5 +314,46 @@ public class EncuentraTuMenuActivity extends AppCompatActivity implements BaseSl
                 e.printStackTrace();
             }
         }
+    }
+
+    public final boolean isInternetOn() {
+
+        ConnectivityManager cm = (ConnectivityManager) EncuentraTuMenuActivity.this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null) { // connected to the internet
+            if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI) {
+                // connected to wifi
+                return true;
+            } else if (activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                // connected to the mobile provider's data plan
+                return true;
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    private void showOffline() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(EncuentraTuMenuActivity.this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(R.string.sorry_title);
+        builder.setMessage(R.string.device_offline);
+        builder.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Utils.psLog("OK clicked.");
+            }
+        });
+        builder.show();
+    }
+
+    private void showFailPopup() {
+        AlertDialog.Builder builder =
+                new AlertDialog.Builder(EncuentraTuMenuActivity.this, R.style.AppCompatAlertDialogStyle);
+        builder.setTitle(R.string.login);
+        builder.setMessage(R.string.login_fail);
+        builder.setPositiveButton(R.string.OK, null);
+        builder.show();
     }
 }

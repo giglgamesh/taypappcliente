@@ -17,7 +17,9 @@ import java.util.List;
 import pe.oranch.taypappcliente.R;
 import pe.oranch.taypappcliente.activities.DescubrirComidaActivity;
 import pe.oranch.taypappcliente.entidades.Tay_comida;
+import pe.oranch.taypappcliente.models.PComidaData;
 
+import static pe.oranch.taypappcliente.Config.APP_API_ANTIGUO;
 import static pe.oranch.taypappcliente.Config.APP_API_URL;
 
 /**
@@ -25,11 +27,13 @@ import static pe.oranch.taypappcliente.Config.APP_API_URL;
  */
 
 public class Tay_comidaAdapter extends RecyclerView.Adapter<Tay_comidaAdapter.Tay_comidaHolder> {
-    List<Tay_comida> listaComida;
+    //List<Tay_comida> listaComida;
+    List<PComidaData> pComidaDataList;
     private Context mContext;
 
-    public Tay_comidaAdapter(Context context, List<Tay_comida> listaComida) {
-        this.listaComida = listaComida;
+    public Tay_comidaAdapter(Context context, List<PComidaData> comidas) {
+        //this.listaComida = listaComida;
+        this.pComidaDataList = comidas;
         this.mContext= context;
     }
 
@@ -44,29 +48,41 @@ public class Tay_comidaAdapter extends RecyclerView.Adapter<Tay_comidaAdapter.Ta
 
     @Override
     public void onBindViewHolder(Tay_comidaAdapter.Tay_comidaHolder holder, final int position) {
-        holder.item_titulo.setText(listaComida.get(position).getTay_tipocomida_nombre().toString());
+        final PComidaData comida = pComidaDataList.get(position);
 
+        //holder.item_titulo.setText(listaComida.get(position).getTay_tipocomida_nombre().toString());
+        holder.item_titulo.setText(comida.tay_tipocomida_nombre);
 
-        for (int i=0;i<listaComida.size();i++){
+        //for (int i=0;i<listaComida.size();i++){
+        //    String urlimagen;
+        //    urlimagen = APP_API_ANTIGUO + (listaComida.get(position).getTay_tipocomida_url().toString());
+        //    Picasso.with(mContext).load(urlimagen).into(holder.imagenmenu);
+        //}
+        for (int i=0;i<pComidaDataList.size();i++){
             String urlimagen;
-            urlimagen = APP_API_URL + (listaComida.get(position).getTay_tipocomida_url().toString());
+            urlimagen = APP_API_ANTIGUO + (comida.tay_tipocomida_url);
             Picasso.with(mContext).load(urlimagen).into(holder.imagenmenu);
         }
 
-        holder.tipocomida.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentReg = new Intent(mContext,DescubrirComidaActivity.class);
-                intentReg.putExtra("tay_tipocomida_id", listaComida.get(position).getTay_tipocomida_id().toString());
-                intentReg.putExtra("tay_tipocomida_nombre", listaComida.get(position).getTay_tipocomida_nombre().toString());
-                mContext.startActivity(intentReg);
-            }
-        });
+
+        //holder.tipocomida.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        Intent intentReg = new Intent(mContext,DescubrirComidaActivity.class);
+        //        intentReg.putExtra("tay_tipocomida_id", listaComida.get(position).getTay_tipocomida_id().toString());
+        //        intentReg.putExtra("tay_tipocomida_nombre", listaComida.get(position).getTay_tipocomida_nombre().toString());
+        //        mContext.startActivity(intentReg);
+        //    }
+        //});
     }
 
     @Override
     public int getItemCount() {
-        return listaComida.size();
+        if(pComidaDataList != null) {
+            return pComidaDataList.size();
+        }
+        return 0;
+        //return listaComida.size();
     }
 
     public class Tay_comidaHolder extends RecyclerView.ViewHolder{
