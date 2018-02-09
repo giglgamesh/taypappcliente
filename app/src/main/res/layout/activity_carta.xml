@@ -7,7 +7,6 @@
         android:layout_height="fill_parent"
         android:orientation="vertical">
         <LinearLayout
-            android:background="@drawable/fondo_menu_sup"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="horizontal"
@@ -23,38 +22,19 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ico_user"/>
+                    android:src="@drawable/ic_ico_info_2"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:layout_weight="0.5">
-                <TextView
-                    android:id="@+id/Titulo_Comida"
-                    android:layout_marginLeft="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorBlanco"
-                    android:text="TITULO"
-                    android:autoSizeTextType="uniform"
-                    android:autoSizeMinTextSize="12sp"
-                    android:autoSizeMaxTextSize="50sp"
-                    android:textSize="12sp"
-                    android:autoSizeStepGranularity="1sp"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ico_list"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -62,12 +42,6 @@
                 android:orientation="horizontal"
                 android:layout_weight="1"
                 android:onClick="VerMapa">
-                <ImageView
-                    android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ico_location"/>
             </LinearLayout>
 
             <LinearLayout
@@ -75,20 +49,43 @@
                 android:layout_height="fill_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1">
-                <ImageView
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:onClick="VolverPerfil">
+                <TextView
+                    android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
-                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ico_search"/>
+                    android:text="PLATOS A LA CARTA"
+                    android:textSize="14dp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeMaxTextSize="50sp"
+                    android:autoSizeStepGranularity="1sp"
+                    android:textColor="@color/colorPrimaryDark"/>
             </LinearLayout>
-
         </LinearLayout>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:orientation="vertical"
-            android:layout_weight="0.07">
+            android:layout_weight="0.09">
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/simpleSwipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/relLayoutTop"
+                android:layout_above="@+id/margenBot">
                 <ScrollView
                     android:id="@+id/ScrollView01"
                     android:layout_width="fill_parent"
@@ -111,6 +108,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>
+            </android.support.v4.widget.SwipeRefreshLayout>
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

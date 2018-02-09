@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/ic_informacion"
+        android:icon="@drawable/ic_ico_info_2"
+        android:title="INFORMACIÓN"
+        />
+    <item
+        android:id="@+id/ic_comollegar"
+        android:icon="@drawable/ico_location"
+        android:title="COMO LLEGAR"
+        />
+    <item
+        android:id="@+id/ic_calificaciones"
+        android:icon="@drawable/ic_estrellaploma"
+        android:title="CALIFICACIONES"
+        />_
+    <item
+        android:id="@+id/ic_comentarios"
+        android:icon="@drawable/ic_ico_info_2"
+        android:title="COMENTARIOS"
+        />
+
+</menu>

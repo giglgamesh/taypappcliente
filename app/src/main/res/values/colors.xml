@@ -3,10 +3,12 @@
     <color name="colorPrimary">#c63f17</color>
     <color name="colorPrimaryDark">#f5a623</color>
     <color name="colorAccent">#f5a623</color>
+    <color name="colorDorado">#efe811</color>
     <color name="colorFondo">#f1f1f1</color>
     <color name="colorPlomo">#C3C3C3</color>
     <color name="colorBlanco">#FFFFFF</color>
     <color name="colorNegro">#000000</color>
+    <color name="textoH1">#a6a3a3</color>
     <color name="textoH2">#393737</color>
     <color name="textoH3">#ec7f1f</color>
     <color name="perfil">#e46b01</color>

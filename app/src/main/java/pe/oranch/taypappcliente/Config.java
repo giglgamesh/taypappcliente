@@ -15,17 +15,27 @@ public class Config extends Application{
     //FIN CONFIGURACION DEL MAPA
 
 
-    public static final String APP_API_URL = "http://192.168.0.25/android-taypapp/index.php";
-    //public static final String APP_API_URL = "http://tayapp.azurewebsites.net/android-taypapp/index.php";
-    //public static final String APP_API_ANTIGUO = "http://tayapp.azurewebsites.net/restaurantes/cliente/";
-    public static final String APP_IMAGES_LOCAL = "http://192.168.0.25/android-taypapp/uploads/";
-    //public static final String APP_IMAGES_LOCAL = "http://tayapp.azurewebsites.net/android-taypapp/uploads/";
+    //public static final String APP_API_URL = "http://192.168.0.15/android-taypapp/index.php";
+    public static final String APP_API_URL = "http://tayapp.azurewebsites.net/android-taypapp/index.php";
+    public static final String APP_API_ANTIGUO = "http://tayapp.azurewebsites.net/restaurantes/cliente/";
+    public static final String APP_API_CARTA = "http://tayapp.azurewebsites.net/restaurantes/";
+    //public static final String APP_IMAGES_LOCAL = "http://192.168.0.15/android-taypapp/uploads/";
+    public static final String APP_IMAGES_LOCAL = "http://tayapp.azurewebsites.net/android-taypapp/uploads/";
     //PARA LLAMAR FOTOS ANTIGUAS
-    public static final String APP_API_ANTIGUO = "http://192.168.0.25/restaurantes/cliente/";
+    //public static final String APP_API_ANTIGUO = "http://192.168.0.15/restaurantes/cliente/";
+    //public static final String APP_API_CARTA = "http://192.168.0.15/restaurantes/";
+
     public static final String POST_USER_LOGIN = "/rest/clientes/login";
     public static final String GET_FOTOS_SLIDER= "/rest/sliders/fotos_slider/";
+    public static final String GET_OFERTAS= "/rest/ofertas/oferta/";
+    public static final String GET_RATINGS= "/rest/ratings/rating_restaurante/";
+    public static final String GET_COMENTARIOS= "/rest/comentarios/comentario_empresa/";
     public static final String GET_TIPOS_COMIDA= "/rest/tipocomidas/tipos_comida/";
     public static final String GET_ALL_TIPOS_COMIDA= "/rest/tipocomidas/get";
+    public static final String GET_CARTA= "/rest/cartas/carta/";
+    public static final String GET_MENU_FOTO= "/rest/menus/menu_foto/";
+    public static final String GET_MENU_ENTRADA= "/rest/menus/menu_entrada/";
+    public static final String GET_MENU_SEGUNDO= "/rest/menus/menu_segundo/";
     public static final String GET_RESTAURANTES_POR_TIPO= "/rest/restaurantes/restaurante_por_tipo/";
     //public static final String GET_ALL = "/rest/sliders/get";
     //public static final String POST_USER_LOGIN = "Login.php";

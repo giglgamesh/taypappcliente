@@ -23,7 +23,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_user"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_list"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -66,7 +66,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_location"/>
             </LinearLayout>
 
             <LinearLayout
@@ -79,7 +79,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_search"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -88,31 +88,36 @@
             android:layout_height="fill_parent"
             android:orientation="vertical"
             android:layout_weight="0.07">
+
             <android.support.v4.widget.SwipeRefreshLayout
                 android:id="@+id/simpleSwipeRefreshLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/relLayoutTop"
-                android:layout_above="@+id/margenBot">
+                android:layout_above="@+id/margenBot"
+                android:layout_below="@+id/relLayoutTop">
+
                 <ScrollView
                     android:id="@+id/ScrollView01"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:scrollbars="none">
+
                     <LinearLayout
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:orientation="horizontal">
+
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/idRecyclerLista"
-                                android:overScrollMode="never"
-                                android:scrollbars="none"
                                 android:layout_width="fill_parent"
-                                android:layout_height="fill_parent"/>
+                                android:layout_height="fill_parent"
+                                android:overScrollMode="never"
+                                android:scrollbars="none" />
                         </LinearLayout>
                     </LinearLayout>
                 </ScrollView>

@@ -33,6 +33,11 @@
         <activity android:name=".activities.DescubrirComidaActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.EncuentraTuMenuActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
         <activity android:name=".activities.MapaActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.RestauranteActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.CartaActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.BusquedaActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.CalificacionActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
+        <activity android:name=".activities.ComentariosActivity" android:windowSoftInputMode="adjustPan" android:screenOrientation="portrait"></activity>
 
         <meta-data android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>

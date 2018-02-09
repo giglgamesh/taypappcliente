@@ -31,4 +31,6 @@
     <string name="map_icon_desc">Descripción de la imagen</string>
     <string name="explore_on_map">Explorar en el mapa</string>
     <string name="display_name">Mostrar Mensaje</string>
+
+    <string name="dialog_oferta">Detalles del descuento</string>
 </resources>

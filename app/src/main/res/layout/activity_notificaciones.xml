@@ -23,7 +23,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_user"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -53,7 +53,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_list"/>
             </LinearLayout>
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -65,7 +65,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_location"/>
             </LinearLayout>
 
             <LinearLayout
@@ -78,7 +78,7 @@
                     android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_ico_info_2"/>
+                    android:src="@drawable/ico_search"/>
             </LinearLayout>
 
         </LinearLayout>

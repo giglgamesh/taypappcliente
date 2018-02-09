@@ -26,6 +26,12 @@ public class PRestauranteData implements Parcelable {
     public int tay_empresa_distrito;
     public String tay_ruta_imagen;
     public String tay_empresa_foto;
+    public Double restaurante_rating;
+    public String restaurante_comida_nombre;
+    public Double precio_desde_carta;
+    public Double precio_desde_menu;
+    public String restaurante_oferta;
+    public String menufoto;
 
 
     protected PRestauranteData(Parcel in) {
@@ -44,6 +50,12 @@ public class PRestauranteData implements Parcelable {
         tay_empresa_distrito = in.readInt();
         tay_ruta_imagen = in.readString();
         tay_empresa_foto = in.readString();
+        restaurante_rating = in.readDouble();
+        restaurante_comida_nombre = in.readString();
+        precio_desde_carta = in.readDouble();
+        precio_desde_menu = in.readDouble();
+        restaurante_oferta = in.readString();
+        menufoto = in.readString();
     }
 
 
@@ -69,6 +81,12 @@ public class PRestauranteData implements Parcelable {
         dest.writeInt(tay_empresa_distrito);
         dest.writeString(tay_ruta_imagen);
         dest.writeString(tay_empresa_foto);
+        dest.writeDouble(restaurante_rating);
+        dest.writeString(restaurante_comida_nombre);
+        dest.writeDouble(precio_desde_carta);
+        dest.writeDouble(precio_desde_menu);
+        dest.writeString(restaurante_oferta);
+        dest.writeString(menufoto);
     }
 
     @SuppressWarnings("SIN NINGUN USO")
